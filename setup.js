@@ -23,8 +23,8 @@ function initDB() {
             // console.log("you selected:", selectedOption);
             setUpEnv(selectedOption);
             setUpDB(selectedOption);
-            rl.close();
         }
+        rl.close();
     })
 }
 if (selectedOption == null){
@@ -182,22 +182,19 @@ function setUpEnv(inputVal){
         })
     } else {
         console.log("Time to set up the env file. Please enter the details when asked.\n")
-        rl.question("Please enter the username:\n", (answer) => {
-            user = answer;
-            rl.close();
+        rl.question("Please enter the username:\n", (answer1) => {
+            user = answer1;
+            rl.question("Please enter the password:\n", (answer2) => {
+                password = answer2;
+                rl.question("Please enter the server/host address:\n", (answer3) => {
+                    server = answer3;
+                    rl.question("Please enter the database name:\n", (answer4) => {
+                        db = answer4;
+                        rl.close();
+                    });
+                });
+            });
         });
-        rl.question("Please enter the password:\n", (answer) => {
-            password = answer;
-            rl.close();
-        });
-        rl.question("Please enter the server/host address:\n", (answer) => {
-            server = answer;
-            rl.close();
-        });
-        rl.question("Please enter the database name:\n"), (answer) => {
-            db = answer;
-            rl.close();
-        }
     }
     const writeData = `
 USER=${user}
