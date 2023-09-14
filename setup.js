@@ -21,10 +21,10 @@ function initDB() {
         } else {
             selectedOption = answer;
             // console.log("you selected:", selectedOption);
-            setUpEnv(selectedOption);
-            setUpDB(selectedOption);
+            setUpEnv(selectedOption)
+            // setUpDB(selectedOption);
+            rl.close();
         }
-        rl.close();
     })
 }
 if (selectedOption == null){
@@ -180,6 +180,9 @@ function setUpEnv(inputVal){
             uri = answer;
             rl.close();
         })
+        const writeData = `MONGO_URI=${uri}`;
+        writeEnvFile(writeData, callback);
+
     } else {
         console.log("Time to set up the env file. Please enter the details when asked.\n")
         rl.question("Please enter the username:\n", (answer1) => {
@@ -200,12 +203,14 @@ function setUpEnv(inputVal){
 USER=${user}
 PASSWORD=${password}
 SERVER=${server}
-DB=${db}
-MONGO_URI=${uri}
-    `
-    if (fs.existsSync('.env')){
-        fs.appendFileSync('.env', writeData, {flag: 'a'});
-    } else {
-        fs.writeFileSync('.env', writeData, {flag: 'w'});
-    }
+DB=${db}`
+    writeEnvFile(writeData);
 }
+
+function writeEnvFile(data){
+    if (fs.existsSync('.env')){
+        fs.appendFileSync('.env', data, {flag: 'a'});
+    } else {
+        fs.writeFileSync('.env', data, {flag: 'w'})
+    }
+};
