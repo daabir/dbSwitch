@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const readline = require('readline');
 const dotenv = require('dotenv');
+const fs = require('fs');
 
 //middleware
 app.use(cors());
