@@ -21,6 +21,7 @@ function initDB() {
         } else {
             selectedOption = answer;
             // console.log("you selected:", selectedOption);
+            setUpEnv(selectedOption);
             setUpDB(selectedOption);
             rl.close();
         }
@@ -77,7 +78,7 @@ function setUpDB(inputVal){
         const writeData = `
             const mysql = require('mysql');
             const connection = mysql.createConnection({
-                host: process.env.HOST,
+                host: process.env.SERVER,
                 user: process.env.USER,
                 password: process.env.PASSWORD,
                 database: process.env.DB 
@@ -138,7 +139,7 @@ function setUpDB(inputVal){
 
             const client = new Client({
                 user: process.env.USER,
-                host: process.env.HOST,
+                host: process.env.SERVER,
                 database: process.env.DB,
                 password: process.env.PASSWORD,
                 port: 5432, // Default PostgreSQL port
@@ -151,6 +152,7 @@ function setUpDB(inputVal){
             app.listen(4000,()=>{
                 console.log("Connected to api")
             })`
+        fs.appendFileSync('index.js', writeData, {flag: 'a'});
         exec('npm install pg', (error, stdout, stderr)=>{
             if(error){
                 console.log(`Error: ${error.message}`)
@@ -165,13 +167,46 @@ function setUpDB(inputVal){
 };
 
 function setUpEnv(inputVal){
-    if(inputVal == "1"){
+    var user;
+    var password;
+    var db;
+    var server;
+    var uri;
+    if(inputVal == "3" ){
+        console.log("Time to set up the env file. Please enter the details when asked.\n")
+        rl.question("Please enter the URI of your mongodb account(You can copy paste it from your Atlas account):\n", (answer) => {
+            uri = answer;
+            rl.close();
+        })
+    } else {
         console.log("Time to set up the env file. Please enter the details when asked.\n")
         rl.question("Please enter the username:\n", (answer) => {
-
+            user = answer;
+            rl.close();
         });
         rl.question("Please enter the password:\n", (answer) => {
-
+            password = answer;
+            rl.close();
         });
+        rl.question("Please enter the server/host address:\n", (answer) => {
+            server = answer;
+            rl.close();
+        });
+        rl.question("Please enter the database name:\n"), (answer) => {
+            db = answer;
+            rl.close();
+        }
+    }
+    const writeData = `
+    USER=${user}
+    PASSWORD=${password}
+    SERVER=${server}
+    DB=${db}
+    MONGO_URI=${uri}
+    `
+    if (fs.existsSync('.env')){
+        fs.appendFileSync('.env', writeData, {flag: 'a'});
+    } else {
+        fs.writeFileSync('.env', writeData, {flag: 'w'});
     }
 }
