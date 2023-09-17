@@ -13,22 +13,20 @@ var selectedOption = null; //option selected by user
 
 const choices = ['1', '2', '3', '4']; //to validate selection by user
 
-function initDB() {
+function initDB() {  //main function.
     rl.question("Select your database(1,2,3 or 4): \n\t1.MSSQL\n\t2.MySQL\n\t3.MongoDB\n\t4.PostgreSQL\n", (answer) => {
         if (!choices.includes(answer)) {
             console.log("Please enter a valid choice.")
             initDB()
         } else {
             selectedOption = answer;
-            // console.log("you selected:", selectedOption);
-            setUpEnv(selectedOption)
+            setUpEnv(selectedOption);
             // setUpDB(selectedOption);
-            rl.close();
         }
     })
 }
 if (selectedOption == null){
-    initDB()
+    initDB()  //call main function
 }
 
 //the 'writeData' code is written with a weird indentation in order to preserve the indentation of the index.js file
@@ -175,16 +173,14 @@ function setUpEnv(inputVal){
     var server;
     var uri;
     if(inputVal == "3" ){
-        console.log("Time to set up the env file. Please enter the details when asked.\n")
+        console.log("Time to set up the env file. Please enter the following details.\n")
         rl.question("Please enter the URI of your mongodb account(You can copy paste it from your Atlas account):\n", (answer) => {
             uri = answer;
-            rl.close();
+            const writeData = `MONGO_URI=${uri}`;
+            writeEnvFile(writeData,inputVal);
         })
-        const writeData = `MONGO_URI=${uri}`;
-        writeEnvFile(writeData, callback);
-
     } else {
-        console.log("Time to set up the env file. Please enter the details when asked.\n")
+        console.log("Time to set up the env file. Please enter the following details.\n")
         rl.question("Please enter the username:\n", (answer1) => {
             user = answer1;
             rl.question("Please enter the password:\n", (answer2) => {
@@ -193,24 +189,26 @@ function setUpEnv(inputVal){
                     server = answer3;
                     rl.question("Please enter the database name:\n", (answer4) => {
                         db = answer4;
-                        rl.close();
+                        const writeData = `
+USER=${user}
+PASSWORD=${password}
+SERVER=${server}
+DB=${db}`
+    writeEnvFile(writeData,inputVal);
                     });
                 });
             });
         });
     }
-    const writeData = `
-USER=${user}
-PASSWORD=${password}
-SERVER=${server}
-DB=${db}`
-    writeEnvFile(writeData);
 }
 
-function writeEnvFile(data){
+function writeEnvFile(data,val){
+    rl.close();
     if (fs.existsSync('.env')){
         fs.appendFileSync('.env', data, {flag: 'a'});
     } else {
         fs.writeFileSync('.env', data, {flag: 'w'})
     }
+    console.log("Please wait installing dependencies...")
+    setUpDB(val);
 };
