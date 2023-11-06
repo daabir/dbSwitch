@@ -1,6 +1,5 @@
-# dbSwitch
-lightweight app that saves you the hustle of writing connection functions for databases, setting up env files and more.
-go through the code to understand.
+# dbSwitch(readline)
+lightweight app that demonstrates readline module. 
 
 # how to use
     1. Clone repository. or download the zipped verion.
