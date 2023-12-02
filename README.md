@@ -1,5 +1,5 @@
 # dbSwitch(readline)
-lightweight app that demonstrates readline module. 
+lightweight app that demonstrates readline module. also helps you initial backend setup
 
 # how to use
     1. Clone repository. or download the zipped verion.
