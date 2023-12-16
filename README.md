@@ -1,10 +1,26 @@
-# dbSwitch(readline)
-lightweight app that demonstrates readline module. also helps you initial backend setup
+## About:
 
-# how to use
-    1. Clone repository. or download the zipped verion.
-    2. Goto the code directory >> Open terminal >> Run "npm install"
-    3. Once that is done, run "node setup"
-    4. The menu will be displayed. Follow the instructions within the menu.
-    5. You are all set. You can now delete the "setup.js" file.
+lightweight node app that demonstrates readline module. also helps you with initial backend setup  
 
+Upon going through the code you should be able to understand these concepts:  
+
+- NodeJs
+- Readline
+- Server side scripting
+- Database connections  
+
+## How to run:
+
+Clone the repo by running the following command in your terminal:  
+
+```
+git clone <>
+```  
+
+Open the location where the repo is located and run these commands:  
+```
+node setup.js
+```  
+
+A menu will appear in your terminal which is very easy to follow.  
+Select from the options provided and the program will guide you to next steps.
