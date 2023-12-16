@@ -17,7 +17,8 @@ Clone the repo by running the following command in your terminal:
 git clone <>
 ```  
 
-Open the location where the repo is located and run these commands:  
+cd into the location where the repo is located and run these commands:  
+
 ```
 node setup.js
 ```  
