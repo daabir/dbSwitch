@@ -1,6 +1,6 @@
 ## About:
 
-lightweight node app that demonstrates readline module. also helps you with initial backend setup  
+lightweight node app that demonstrates readline module. also helps you with initial database - server configuration  
 
 Upon going through the code you should be able to understand these concepts:  
 
